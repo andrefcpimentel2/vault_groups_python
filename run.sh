@@ -1,4 +1,2 @@
 #!/bin/bash
-sudo apt-get install python3-pip -y
-pip3 install hvac
-python3 create_groups.py
+pip3 install hvac && python3 local/repo/1/create_groups.py
