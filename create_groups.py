@@ -3,14 +3,16 @@
 import hvac
 import json
 import requests
+import os
 
-VAULT_ADDRESS = ""
-VAULT_TOKEN = ""
+VAULT_ADDRESS =  os.environ.get('VAULT_ADDR', None)
+VAULT_TOKEN =  os.environ.get('VAULT_TOKEN', None)
 
 
 client = hvac.Client(
     url=VAULT_ADDRESS,
     token=VAULT_TOKEN,
+    verify=False,
     )
 
 def listEntities():
