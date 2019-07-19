@@ -1,2 +1,2 @@
 #!/bin/bash
-pip3 install hvac && python3 ./create_groups.py
+pip3 install hvac && python3 local/repo/1/create_groups.py
