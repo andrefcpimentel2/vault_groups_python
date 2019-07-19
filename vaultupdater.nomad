@@ -2,18 +2,14 @@ job "vaultupdater" {
   datacenters = ["dc1","eu-west-2"]
   type = "batch"
 
+periodic {
+    cron             = "* * * * *"
+    prohibit_overlap = true
+  }
+
   group "vaultEnityUpdater" {
     count = 1
     
-  reschedule {
-      attempts       = 1
-      interval       = "1m"
-      delay          = "30s"
-      delay_function = "exponential"
-      max_delay      = "120s"
-      unlimited      = false
-    }
-
      task "GroupEntityRenamer" {
       driver = "exec"
       vault {
