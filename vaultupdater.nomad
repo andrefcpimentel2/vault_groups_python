@@ -22,7 +22,7 @@ periodic {
       }
 
       artifact {
-           source   = "git::https://github.com/GuyBarros/vault_groups_python.git"
+           source   = "git::https://github.com/andrefcpimentel2/vault_groups_python.git"
            destination = "local/repo/1/"
            
          }
