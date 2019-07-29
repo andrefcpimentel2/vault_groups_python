@@ -68,13 +68,13 @@ def createGroupByEntityID(entityID):
         except Exception as e: print("Skipping: {e} ".format(e=e))
 
 def checkGroupExists(group_name):
-
-    list_response = client.secrets.identity.list_groups_by_name()
-    group_keys = list_response['data']['keys']
-
-    if group_name in group_keys:
-        return True
-
+    try:
+        list_response = client.secrets.identity.list_groups_by_name()
+        group_keys = list_response['data']['keys']
+    
+        if group_name in group_keys:
+            return True
+    except Exception as e: print("Skipping: {e} ".format(e=e))
     return False
     
 #Creates a KV for the user group
