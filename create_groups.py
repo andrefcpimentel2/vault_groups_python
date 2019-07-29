@@ -57,16 +57,15 @@ def createGroupByEntityID(entityID):
         print ("Group Exists -- Skipping")
     else:    
         createGroupPolicyByIdentity(entity_alias, group_policy)
-    
-    #Finally, creates the group
-    print('creating group {group_name} for entity {entityID} and policies {group_policy}'.format(group_name=group_name,entityID=entityID,group_policy=group_policy))
-    try:
-        client.secrets.identity.create_or_update_group_by_name(
-            name=group_name,
-            member_entity_ids=entityID,
-            policies=group_policy,
-        )
-    except Exception as e: print("Skipping: {e} ".format(e=e))
+        #Finally, creates the group
+        print('creating group {group_name} for entity {entityID} and policies {group_policy}'.format(group_name=group_name,entityID=entityID,group_policy=group_policy))
+        try:
+            client.secrets.identity.create_or_update_group_by_name(
+                name=group_name,
+                member_entity_ids=entityID,
+                policies=group_policy,
+            )
+        except Exception as e: print("Skipping: {e} ".format(e=e))
 
 def checkGroupExists(group_name):
 
