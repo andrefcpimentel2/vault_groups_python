@@ -42,7 +42,7 @@ def createGroupByEntityID(entityID):
     try:
         updateEntityAliasName(entityID,entity_alias,mount_accessor)
     except Exception as e: print("Skipping: {e} ".format(e=e))
-  
+
     group_name=entity_alias+'-group'
     group_policy=entity_alias+'-policy'
 
@@ -55,7 +55,7 @@ def createGroupByEntityID(entityID):
 
     if checkGroupExists(group_name):
         print ("Group Exists -- Skipping")
-    else:    
+    else:
         createGroupPolicyByIdentity(entity_alias, group_policy)
         #Finally, creates the group
         print('creating group {group_name} for entity {entityID} and policies {group_policy}'.format(group_name=group_name,entityID=entityID,group_policy=group_policy))
@@ -71,12 +71,12 @@ def checkGroupExists(group_name):
     try:
         list_response = client.secrets.identity.list_groups_by_name()
         group_keys = list_response['data']['keys']
-    
+
         if group_name in group_keys:
             return True
     except Exception as e: print("Skipping: {e} ".format(e=e))
     return False
-    
+
 #Creates a KV for the user group
 def createGroupSharedkv(entityID):
 
@@ -107,7 +107,7 @@ def createGroupPolicyByIdentity(entity_alias, group_policy):
     capabilities = [ "list" ]
     }
 
-   
+
 
     """ % (entity_alias,entity_alias)
 
@@ -128,7 +128,9 @@ def getEntityAlias(entityID):
         name = read_response['data']['aliases'][0]['metadata']['name']
     elif read_response['data']['aliases'][0]['mount_type'] == "github":
         name = read_response['data']['aliases'][0]['name']
-    
+    elif read_response['data']['aliases'][0]['mount_type'] == "ldap":
+        name = read_response['data']['aliases'][0]['name']
+
     print('Name for entity ID {id} is: {name}'.format(id=entityID, name=name))
     return name
 
@@ -138,15 +140,15 @@ def getEntityAliasMountAccessor(entityID):
     read_response = client.secrets.identity.read_entity(
             entity_id=entityID,
     )
- 
+
     mount_accessor = read_response['data']['aliases'][0]['mount_accessor']
-    
+
     print('Mount accessor for entity ID {id} is: {mount_accessor}'.format(id=entityID, mount_accessor=mount_accessor))
     return mount_accessor
 
 #updates entity name using aliases
 def updateEntityName(entityID,entity_alias):
-    
+
     client.secrets.identity.update_entity(
         entity_id=entityID,
         name=entity_alias,
@@ -155,7 +157,7 @@ def updateEntityName(entityID,entity_alias):
 
 ##updates entity alias name using metadaa/alias name
 def updateEntityAliasName(entityID,entity_alias,mount_accessor):
-    
+
     entity_alias_name = entity_alias+'-alias'
     client.secrets.identity.create_or_update_entity_alias(
         canonical_id=entityID,
